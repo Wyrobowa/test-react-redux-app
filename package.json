@@ -28,6 +28,7 @@
     "react-transition-group": "^4.4.5",
     "redux": "^5.0.1",
     "styled-components": "^6.3.11",
-    "styled-normalize": "^8.1.1"
+    "styled-normalize": "^8.1.1",
+    "tharaday": "^0"
   }
 }

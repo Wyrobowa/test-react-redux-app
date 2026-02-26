@@ -1,17 +1,22 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import PropType from 'prop-types';
-
-// Styles
-import { MainTitle } from './mainStyles';
+import { Header, Text } from 'tharaday';
 
 const Main = ({ children }) => {
   return (
     <div>
-      <MainTitle>
-        <Link to="/">Reactstagram</Link>
-      </MainTitle>
-      {children}
+      <Header
+        logo={
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Text variant="h1" color="main" style={{ fontFamily: "'Grand Hotel', cursive", margin: 0 }}>
+              Reactstagram
+            </Text>
+          </Link>
+        }
+      />
+      <div style={{ padding: '2rem' }}>
+        {children}
+      </div>
     </div>
   );
 };

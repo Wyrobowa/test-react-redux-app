@@ -22,7 +22,7 @@ export const LikesHeart = styled.span`
   font-size: 2rem;
   padding: 1rem;
   position: absolute;
-  color: ${({ theme }) => theme.colors.blue};
+  color: #125688;
   left: 50%;
   top: 50%;
   pointer-events: none;
@@ -49,7 +49,7 @@ export const LikesHeart = styled.span`
 export const SpeechBubble = styled.span`
   width: 1.5rem;
   height: 1.25rem;
-  background: ${({ theme }) => theme.colors.blue};
+  background: #125688;
   display: inline-block;
   border-radius: 50%;
   position: relative;
@@ -63,7 +63,7 @@ export const SpeechBubble = styled.span`
     height: 0;
     border-style: solid;
     border-width: 0 1.25rem 1.25rem 0;
-    border-color: transparent ${({ theme }) => theme.colors.blue} transparent transparent;
+    border-color: transparent #125688 transparent transparent;
     top: 30%;
     left: 0;
   }
@@ -75,8 +75,8 @@ export const PhotoFigure = styled.figure`
   flex-shrink: 0;
   margin: 0 2rem 2rem 2rem;
   padding: 2rem;
-  border: 1px solid ${({ theme }) => theme.colors.lightgray};
-  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
   box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.03);
   position: relative;
   

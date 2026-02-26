@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import PropType from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { Box } from 'tharaday';
 
 // Actions
 import { getPosts, selectAllPosts } from '../../features/postsSlice';
@@ -8,9 +9,6 @@ import { getComments, selectAllComments } from '../../features/commentsSlice';
 
 // Components
 import Photo from '../photo/Photo';
-
-// Styles
-import { GridWrapper } from './gridStyles';
 
 const Grid = () => {
   const posts = useSelector(selectAllPosts);
@@ -25,8 +23,15 @@ const Grid = () => {
       dispatch(getComments());
     }
   }, [dispatch, posts.length, comments]);
+
   return (
-    <GridWrapper>
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      justifyContent="center"
+      mx="auto"
+      style={{ maxWidth: '1200px' }}
+    >
       {posts.length > 0 && posts.map((post, index) => (
         <Photo
           post={post}
@@ -36,7 +41,7 @@ const Grid = () => {
           type="grid"
         />
       ))}
-    </GridWrapper>
+    </Box>
   );
 };
 

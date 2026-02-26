@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropType from 'prop-types';
+import { Box, Text, Input, Button } from 'tharaday';
 
 // Actions
 import { addComment, removeComment } from '../../features/commentsSlice';
-
-// Styles
-import * as Styled from './commentsStyles';
 
 const Comments = ({ comments }) => {
   const [author, setAuthor] = useState('');
@@ -27,52 +25,52 @@ const Comments = ({ comments }) => {
     }
   };
 
-  const handleRemoveComment = ({ currentTarget }) => {
-    const index = parseInt(currentTarget.getAttribute('data-index'), 10);
+  const handleRemoveComment = (index) => {
     dispatch(removeComment({ postId: id, index }));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
+    if (!author || !comment) return;
     dispatch(addComment({ postId: id, author, comment }));
     setAuthor('');
     setComment('');
   };
 
   return (
-    <Styled.CommentsWrapper>
+    <Box flex="1 0 40%" padding={4}>
       {comments?.length > 0 && comments.map((comment, index) => (
-        <Styled.Comment key={comment.text}>
-          <p>
-            <strong>{comment.user}</strong>
+        <Box key={comment.text + index} borderBottom paddingY={2} display="flex" justifyContent="space-between" alignItems="center">
+          <Text variant="body-md">
+            <Text as="span" weight="bold" style={{ marginRight: '0.5rem' }}>{comment.user}</Text>
             {comment.text}
-            <Styled.RemoveCommentButton
-              onClick={handleRemoveComment}
-              data-index={index}
-            >
-              &times;
-            </Styled.RemoveCommentButton>
-          </p>
-        </Styled.Comment>
+          </Text>
+          <Button
+            variant="ghost"
+            intent="danger"
+            size="sm"
+            onClick={() => handleRemoveComment(index)}
+          >
+            &times;
+          </Button>
+        </Box>
       ))}
-      <Styled.CommentForm onSubmit={handleSubmit}>
-        <input
-          type="text"
+      <Box as="form" onSubmit={handleSubmit} mt={4} display="flex" flexDirection="column" gap={2}>
+        <Input
           name="author"
           onChange={handleOnChange}
           placeholder="author"
           value={author}
         />
-        <input
-          type="text"
+        <Input
           name="comment"
           onChange={handleOnChange}
           placeholder="comment"
           value={comment}
         />
-        <input type="submit" hidden/>
-      </Styled.CommentForm>
-    </Styled.CommentsWrapper>
+        <Button type="submit" hidden>Submit</Button>
+      </Box>
+    </Box>
   );
 };
 
