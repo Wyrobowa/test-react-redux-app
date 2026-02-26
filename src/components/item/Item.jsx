@@ -3,23 +3,19 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
-import { requestGetPosts } from '../../actions/postsActions';
+import { getPosts, selectAllPosts } from '../../features/postsSlice';
+import { getComments, selectAllComments } from '../../features/commentsSlice';
 
 // Components
 import Comments from '../comments/Comments';
 import Photo from '../photo/Photo';
 
-// Reducers
-import { getPosts } from '../../reducers/postsReducer';
-import { getComments } from '../../reducers/commentsReducer';
-
 // Styles
 import { ItemWrapper } from './itemStyles';
-import { requestGetComments } from '../../actions/commentsActions';
 
 const Item = () => {
-  const posts = useSelector(getPosts);
-  const comments = useSelector(getComments);
+  const posts = useSelector(selectAllPosts);
+  const comments = useSelector(selectAllComments);
   const dispatch = useDispatch();
   const id = useParams().postId;
 
@@ -29,9 +25,13 @@ const Item = () => {
   );
 
   useEffect(() => {
-    dispatch(requestGetPosts());
-    dispatch(requestGetComments());
-  }, []);
+    if (posts.length === 0) {
+      dispatch(getPosts());
+    }
+    if (Object.keys(comments).length === 0) {
+      dispatch(getComments());
+    }
+  }, [dispatch, posts.length, comments]);
 
   return (
     <ItemWrapper>

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import PropType from 'prop-types';
 
 // Actions
-import { addComment, removeComment } from '../../actions/commentsActions';
+import { addComment, removeComment } from '../../features/commentsSlice';
 
 // Styles
 import * as Styled from './commentsStyles';
@@ -28,13 +28,13 @@ const Comments = ({ comments }) => {
   };
 
   const handleRemoveComment = ({ currentTarget }) => {
-    const index = currentTarget.getAttribute('data-index');
-    dispatch(removeComment(id, index));
+    const index = parseInt(currentTarget.getAttribute('data-index'), 10);
+    dispatch(removeComment({ postId: id, index }));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(addComment(id, author, comment));
+    dispatch(addComment({ postId: id, author, comment }));
     setAuthor('');
     setComment('');
   };

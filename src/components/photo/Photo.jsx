@@ -5,7 +5,7 @@ import PropType from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 // Actions
-import { incrementLikes } from '../../actions/postsActions';
+import { incrementLikes } from '../../features/postsSlice';
 
 // Common
 import { routes } from '../../common/consts';

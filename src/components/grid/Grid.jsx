@@ -3,28 +3,28 @@ import PropType from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
-import { requestGetPosts } from '../../actions/postsActions';
-import { requestGetComments } from '../../actions/commentsActions';
+import { getPosts, selectAllPosts } from '../../features/postsSlice';
+import { getComments, selectAllComments } from '../../features/commentsSlice';
 
 // Components
 import Photo from '../photo/Photo';
-
-// Reducers
-import { getPosts } from '../../reducers/postsReducer';
-import { getComments } from '../../reducers/commentsReducer';
 
 // Styles
 import { GridWrapper } from './gridStyles';
 
 const Grid = () => {
-  const posts = useSelector(getPosts);
-  const comments = useSelector(getComments);
+  const posts = useSelector(selectAllPosts);
+  const comments = useSelector(selectAllComments);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(requestGetPosts());
-    dispatch(requestGetComments());
-  }, [dispatch]);
+    if (posts.length === 0) {
+      dispatch(getPosts());
+    }
+    if (Object.keys(comments).length === 0) {
+      dispatch(getComments());
+    }
+  }, [dispatch, posts.length, comments]);
   return (
     <GridWrapper>
       {posts.length > 0 && posts.map((post, index) => (

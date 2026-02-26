@@ -1,14 +1,14 @@
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
+import postsReducer from './features/postsSlice';
+import commentsReducer from './features/commentsSlice';
 
-import rootReducer from './reducers'
-
-const configureStore = () => {
-  let store;
-
-  store = createStore(rootReducer, composeWithDevTools());
-
-  return store;
+const setupStore = () => {
+  return configureStore({
+    reducer: {
+      posts: postsReducer,
+      comments: commentsReducer,
+    },
+  });
 }
 
-export default configureStore;
+export default setupStore;

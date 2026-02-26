@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
+import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
 // Common
@@ -20,10 +20,10 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Main>
-          <Switch>
-            <Route exact path={routes.main} component={Grid} />
-            <Route path={`${routes.item}/:postId`} component={Item} />
-          </Switch>
+          <Routes>
+            <Route exact path={routes.main} element={<Grid />} />
+            <Route path={`${routes.item}/:postId`} element={<Item />} />
+          </Routes>
         </Main>
       </Router>
     </ThemeProvider>
