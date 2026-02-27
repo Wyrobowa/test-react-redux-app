@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.VITE_BASE_PATH || './',
+  base: '/test-react-redux-app/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
