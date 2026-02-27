@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom';
 import PropType from 'prop-types';
-import { Header, Text } from 'tharaday';
+import { useDispatch, useSelector } from 'react-redux';
+import { Header, Text, Box, Button } from 'tharaday';
+import { selectAuth, login, logout } from '../../features/authSlice';
 
 const Main = ({ children }) => {
+  const dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector(selectAuth);
+
+  const handleLogin = () => dispatch(login());
+  const handleLogout = () => dispatch(logout());
+
   return (
     <div>
       <Header
@@ -13,9 +21,20 @@ const Main = ({ children }) => {
             </Text>
           </Link>
         }
+        user={user}
+        onLogin={handleLogin}
+        onLogout={handleLogout}
       />
       <div style={{ padding: '2rem' }}>
-        {children}
+        {isAuthenticated ? children : (
+          <Box display="flex" flexDirection="column" alignItems="center" gap={4} py={12}>
+            <Text variant="h2">Welcome to Reactstagram</Text>
+            <Text variant="body-lg">Please log in to see your feed and interact with posts.</Text>
+            <Button size="lg" intent="info" variant="solid" onClick={handleLogin}>
+              Log in to Continue
+            </Button>
+          </Box>
+        )}
       </div>
     </div>
   );
