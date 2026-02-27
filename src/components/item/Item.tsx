@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'tharaday';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 // Actions
 import { getPosts, selectAllPosts } from '../../features/postsSlice';
@@ -12,14 +12,14 @@ import Comments from '../comments/Comments';
 import Photo from '../photo/Photo';
 
 const Item = () => {
-  const posts = useSelector(selectAllPosts);
-  const comments = useSelector(selectAllComments);
-  const dispatch = useDispatch();
-  const id = useParams().postId;
+  const posts = useAppSelector(selectAllPosts);
+  const comments = useAppSelector(selectAllComments);
+  const dispatch = useAppDispatch();
+  const { postId } = useParams<{ postId: string }>();
 
   const index = useMemo(
-    () => posts.findIndex(post => post.code === id),
-    [posts, id],
+    () => posts.findIndex(post => post.code === postId),
+    [posts, postId],
   );
 
   useEffect(() => {
@@ -33,21 +33,17 @@ const Item = () => {
 
   return (
     <Box
-      // display="flex"
-      // justifyContent="center"
-      // mx="auto"
-      // backgroundColor="main"
       style={{ maxWidth: '1200px' }}
     >
-      {posts[index] && (
+      {postId && posts[index] && (
         <Box display="flex" justifyContent="space-between" gap={8}>
           <Photo
             post={posts[index]}
-            comments={comments[id]}
+            comments={comments[postId]}
             index={index}
             type="item"
           />
-          <Comments comments={comments[id]} />
+          <Comments comments={comments[postId]} />
         </Box>
       )}
     </Box>

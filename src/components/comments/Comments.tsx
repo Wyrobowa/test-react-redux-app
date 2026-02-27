@@ -1,19 +1,23 @@
-import  { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import PropType from 'prop-types';
-import { Box, Text, Input, Button } from 'tharaday';
+import { Box, Text, Input, Button, ButtonVariant} from 'tharaday';
+
+import { useAppDispatch } from '../../hooks';
 
 // Actions
-import { addComment, removeComment } from '../../features/commentsSlice';
+import { addComment, removeComment, Comment } from '../../features/commentsSlice';
 
-const Comments = ({ comments }) => {
+interface CommentsProps {
+  comments: Comment[];
+}
+
+const Comments = ({ comments }: CommentsProps) => {
   const [author, setAuthor] = useState('');
   const [comment, setComment] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const id = useParams().postId;
 
-  const handleOnChange = ({ target }) => {
+  const handleOnChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
 
     if (name === 'author') {
@@ -25,13 +29,15 @@ const Comments = ({ comments }) => {
     }
   };
 
-  const handleRemoveComment = (index) => {
-    dispatch(removeComment({ postId: id, index }));
+  const handleRemoveComment = (index: number) => {
+    if (id) {
+      dispatch(removeComment({ postId: id, index }));
+    }
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!author || !comment) return;
+    if (!author || !comment || !id) return;
     dispatch(addComment({ postId: id, author, comment }));
     setAuthor('');
     setComment('');
@@ -46,7 +52,7 @@ const Comments = ({ comments }) => {
             {comment.text}
           </Text>
           <Button
-            variant="ghost"
+            variant={'ghost' as ButtonVariant}
             intent="danger"
             size="sm"
             onClick={() => handleRemoveComment(index)}
@@ -72,13 +78,6 @@ const Comments = ({ comments }) => {
       </Box>
     </Box>
   );
-};
-
-Comments.propTypes = {
-  comments: PropType.arrayOf(PropType.shape({
-    text: PropType.string,
-    user: PropType.string,
-  })),
 };
 
 export default Comments;

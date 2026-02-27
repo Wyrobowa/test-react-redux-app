@@ -1,12 +1,16 @@
+import React, { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import PropType from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
 import { Header, Text, Box, Button } from 'tharaday';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectAuth, login, logout } from '../../features/authSlice';
 
-const Main = ({ children }) => {
-  const dispatch = useDispatch();
-  const { user, isAuthenticated } = useSelector(selectAuth);
+interface MainProps {
+  children?: ReactNode;
+}
+
+const Main = ({ children }: MainProps) => {
+  const dispatch = useAppDispatch();
+  const { user, isAuthenticated } = useAppSelector(selectAuth);
 
   const handleLogin = () => dispatch(login());
   const handleLogout = () => dispatch(logout());
@@ -21,13 +25,13 @@ const Main = ({ children }) => {
             </Text>
           </Link>
         }
-        user={user}
+        user={user || undefined}
         onLogin={handleLogin}
         onLogout={handleLogout}
       />
       <Box display="flex" padding={8} justifyContent="center">
         {isAuthenticated ? children : (
-          <Box display="flex" flexDirection="column" alignItems="center" gap={4} py={12}>
+          <Box display="flex" flexDirection="column" alignItems="center" gap={4} style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
             <Text variant="h2">Welcome to Reactstagram</Text>
             <Text variant="body-lg">Please log in to see your feed and interact with posts.</Text>
             <Button size="lg" intent="info" variant="solid" onClick={handleLogin}>
@@ -38,14 +42,6 @@ const Main = ({ children }) => {
       </Box>
     </div>
   );
-};
-
-Main.propTypes = {
-  children: PropType.node,
-};
-
-Main.defaultProps = {
-  children: null,
 };
 
 export default Main;

@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
 
 // Common
@@ -13,7 +14,7 @@ const App = () => {
     <Router basename={import.meta.env.BASE_URL}>
       <Main>
         <Routes>
-          <Route exact path={routes.main} element={<Grid />} />
+          <Route path={routes.main} element={<Grid />} />
           <Route path={`${routes.item}/:postId`} element={<Item />} />
         </Routes>
       </Main>

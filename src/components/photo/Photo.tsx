@@ -1,12 +1,13 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import PropType from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import { Box, Button, Text, Card, CardContent } from 'tharaday';
 
+import { useAppDispatch } from '../../hooks';
+
 // Actions
-import { incrementLikes } from '../../features/postsSlice';
+import { incrementLikes, Post } from '../../features/postsSlice';
+import { Comment } from '../../features/commentsSlice';
 
 // Common
 import { routes } from '../../common/consts';
@@ -14,10 +15,17 @@ import { routes } from '../../common/consts';
 // Styles
 import * as Styled from './photoStyles';
 
-const Photo = ({ post, comments, index, type }) => {
+interface PhotoProps {
+  post: Post;
+  comments?: Comment[];
+  index: number;
+  type: 'grid' | 'item';
+}
+
+const Photo = ({ post, comments, index, type }: PhotoProps) => {
   const [transition, setTransition] = useState(false);
-  const dispatch = useDispatch();
-  const nodeRef = useRef(null);
+  const dispatch = useAppDispatch();
+  const nodeRef = useRef<HTMLDivElement>(null);
 
   const handleIncrementLikes = () => {
     dispatch(incrementLikes(index));
@@ -28,7 +36,6 @@ const Photo = ({ post, comments, index, type }) => {
 
   return (
     <Card
-      as="figure"
       padding={'md'}
       bordered
       borderColor="subtle"
@@ -65,9 +72,9 @@ const Photo = ({ post, comments, index, type }) => {
         </CSSTransition>
       </Box>
 
-      <CardContent as="figcaption" style={{ padding: isGrid ? '0' : '1rem' }}>
+      <CardContent style={{ padding: isGrid ? '0' : '1rem' }}>
         <Box paddingTop={4} display="flex" flexDirection="column" gap={4}>
-          <Text variant="body-md" mb={4}>{post.caption}</Text>
+          <Text variant="body-md" style={{ marginBottom: '1rem' }}>{post.caption}</Text>
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Button variant="outline" size="sm" onClick={handleIncrementLikes}>
               &hearts; {post.likes}
@@ -82,22 +89,6 @@ const Photo = ({ post, comments, index, type }) => {
       </CardContent>
     </Card>
   );
-};
-
-Photo.propTypes = {
-  post: PropType.shape({
-    code: PropType.string,
-    caption: PropType.string,
-    likes: PropType.number,
-    id: PropType.string,
-    display_src: PropType.string,
-  }).isRequired,
-  comments: PropType.arrayOf(PropType.shape({
-    text: PropType.string,
-    user: PropType.string,
-  })),
-  index: PropType.number.isRequired,
-  type: PropType.oneOf(['grid', 'item']).isRequired,
 };
 
 export default Photo;

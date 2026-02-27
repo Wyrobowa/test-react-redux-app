@@ -1,11 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../configureStore';
+
+interface AuthState {
+  user: { name: string } | null;
+  isAuthenticated: boolean;
+}
+
+const initialState: AuthState = {
+  user: null, // { name: 'Ania' }
+  isAuthenticated: false,
+};
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    user: null, // { name: 'Ania' }
-    isAuthenticated: false,
-  },
+  initialState,
   reducers: {
     login: (state) => {
       state.user = { name: 'Ania' };
@@ -21,4 +29,4 @@ const authSlice = createSlice({
 export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;
 
-export const selectAuth = (state) => state.auth;
+export const selectAuth = (state: RootState) => state.auth;

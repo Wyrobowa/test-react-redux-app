@@ -1,7 +1,6 @@
-import  { useEffect } from 'react';
-import PropType from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { Box } from 'tharaday';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 // Actions
 import { getPosts, selectAllPosts } from '../../features/postsSlice';
@@ -11,9 +10,9 @@ import { getComments, selectAllComments } from '../../features/commentsSlice';
 import Photo from '../photo/Photo';
 
 const Grid = () => {
-  const posts = useSelector(selectAllPosts);
-  const comments = useSelector(selectAllComments);
-  const dispatch = useDispatch();
+  const posts = useAppSelector(selectAllPosts);
+  const comments = useAppSelector(selectAllComments);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (posts.length === 0) {
@@ -29,8 +28,7 @@ const Grid = () => {
       display="flex"
       flexWrap="wrap"
       justifyContent="center"
-      mx="auto"
-      style={{ maxWidth: '1200px' }}
+      style={{ maxWidth: '1200px', marginLeft: 'auto', marginRight: 'auto' }}
     >
       {posts.length > 0 && posts.map((post, index) => (
         <Photo
@@ -43,14 +41,6 @@ const Grid = () => {
       ))}
     </Box>
   );
-};
-
-Grid.propTypes = {
-  children: PropType.node,
-};
-
-Grid.defaultProps = {
-  children: null,
 };
 
 export default Grid;
