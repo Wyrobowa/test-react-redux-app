@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
-import { Box, Button, Text } from 'tharaday';
+import { Box, Button, Text, Card, CardContent } from 'tharaday';
 
 // Actions
 import { incrementLikes } from '../../features/postsSlice';
@@ -27,15 +27,15 @@ const Photo = ({ post, comments, index, type }) => {
   const isGrid = type === 'grid';
 
   return (
-    <Box
+    <Card
       as="figure"
-      padding={isGrid ? 4 : 0}
-      m={isGrid ? 4 : 0}
-      border={isGrid}
+      padding={isGrid ? 'md' : 'none'}
+      bordered={isGrid}
       borderColor="subtle"
       backgroundColor="main"
-      flex={isGrid ? '1 0 calc(33.333% - 4rem)' : '1 0 60%'}
       style={{
+        flex: isGrid ? '1 0 calc(33.333% - 4rem)' : '1 0 60%',
+        margin: isGrid ? '1rem 2rem' : '0',
         maxWidth: isGrid ? 'calc(33.333% - 4rem)' : '60%',
         boxShadow: isGrid ? '0 0 0 5px rgba(0, 0, 0, 0.03)' : 'none',
         position: 'relative'
@@ -65,21 +65,22 @@ const Photo = ({ post, comments, index, type }) => {
         </CSSTransition>
       </Box>
 
-      <Box as="figcaption" mt={4}>
-        <Text variant="body-md" mb={4}>{post.caption}</Text>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Button variant="outline" size="sm" onClick={handleIncrementLikes}>
-            &hearts; {post.likes}
-          </Button>
-          <Link to={`/view/${post.code}`} style={{ textDecoration: 'none' }}>
-            <Button variant="outline" size="sm">
-              <Styled.SpeechBubble />
-              {comments?.length || 0}
+      <CardContent as="figcaption" style={{ padding: isGrid ? '0' : '1rem' }}>
+        <Box paddingTop={4} display="flex" flexDirection="column" gap={4}>
+          <Text variant="body-md" mb={4}>{post.caption}</Text>
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Button variant="outline" size="sm" onClick={handleIncrementLikes}>
+              &hearts; {post.likes}
             </Button>
-          </Link>
+            <Link to={`/view/${post.code}`} style={{ textDecoration: 'none' }}>
+              <Button variant="outline" size="sm">
+                &#128172; {comments?.length || 0}
+              </Button>
+            </Link>
+          </Box>
         </Box>
-      </Box>
-    </Box>
+      </CardContent>
+    </Card>
   );
 };
 
