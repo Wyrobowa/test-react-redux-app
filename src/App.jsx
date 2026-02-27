@@ -10,7 +10,7 @@ import Main from "./components/main/Main";
 
 const App = () => {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Main>
         <Routes>
           <Route exact path={routes.main} element={<Grid />} />
