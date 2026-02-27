@@ -5,7 +5,7 @@ const commentsSlice = createSlice({
   name: 'comments',
   initialState: {},
   reducers: {
-    getComments: (state) => {
+    getComments: () => {
       return commentsData;
     },
     addComment: (state, action) => {

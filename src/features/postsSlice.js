@@ -5,7 +5,7 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState: [],
   reducers: {
-    getPosts: (state) => {
+    getPosts: () => {
       return postsData;
     },
     incrementLikes: (state, action) => {
