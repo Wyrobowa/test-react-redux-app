@@ -14,7 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.4",
-    "eslint": "^9",
+    "eslint": "^10",
     "eslint-plugin-react": "^7.37.5",
     "prettier": "3.8.1",
     "vite": "^7.3.1"
@@ -30,6 +30,11 @@
     "redux": "^5.0.1",
     "styled-components": "^6.3.11",
     "styled-normalize": "^8.1.1",
-    "tharaday": "^0"
+    "tharaday": "^0.3.1"
+  },
+  "overrides": {
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    }
   }
 }
