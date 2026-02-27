@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
@@ -17,6 +17,7 @@ import * as Styled from './photoStyles';
 const Photo = ({ post, comments, index, type }) => {
   const [transition, setTransition] = useState(false);
   const dispatch = useDispatch();
+  const nodeRef = useRef(null);
 
   const handleIncrementLikes = () => {
     dispatch(incrementLikes(index));
@@ -58,8 +59,9 @@ const Photo = ({ post, comments, index, type }) => {
           onEntered={() => setTransition(false)}
           timeout={500}
           classNames="like"
+          nodeRef={nodeRef}
         >
-          <Styled.LikesHeart className="likes-heart">{post.likes}</Styled.LikesHeart>
+          <Styled.LikesHeart ref={nodeRef} className="likes-heart">{post.likes}</Styled.LikesHeart>
         </CSSTransition>
       </Box>
 
