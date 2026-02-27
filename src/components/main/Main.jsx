@@ -25,7 +25,7 @@ const Main = ({ children }) => {
         onLogin={handleLogin}
         onLogout={handleLogout}
       />
-      <div style={{ padding: '2rem' }}>
+      <Box display="flex" padding={8} justifyContent="center">
         {isAuthenticated ? children : (
           <Box display="flex" flexDirection="column" alignItems="center" gap={4} py={12}>
             <Text variant="h2">Welcome to Reactstagram</Text>
@@ -35,7 +35,7 @@ const Main = ({ children }) => {
             </Button>
           </Box>
         )}
-      </div>
+      </Box>
     </div>
   );
 };

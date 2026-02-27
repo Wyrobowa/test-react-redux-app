@@ -33,13 +33,14 @@ const Item = () => {
 
   return (
     <Box
-      display="flex"
-      mx="auto"
-      backgroundColor="main"
+      // display="flex"
+      // justifyContent="center"
+      // mx="auto"
+      // backgroundColor="main"
       style={{ maxWidth: '1200px' }}
     >
       {posts[index] && (
-        <>
+        <Box display="flex" justifyContent="space-between" gap={8}>
           <Photo
             post={posts[index]}
             comments={comments[id]}
@@ -47,7 +48,7 @@ const Item = () => {
             type="item"
           />
           <Comments comments={comments[id]} />
-        </>
+        </Box>
       )}
     </Box>
   );

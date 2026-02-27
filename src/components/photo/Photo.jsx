@@ -29,15 +29,15 @@ const Photo = ({ post, comments, index, type }) => {
   return (
     <Card
       as="figure"
-      padding={isGrid ? 'md' : 'none'}
-      bordered={isGrid}
+      padding={'md'}
+      bordered
       borderColor="subtle"
-      backgroundColor="main"
+      backgroundColor="subtle"
       style={{
         flex: isGrid ? '1 0 calc(33.333% - 4rem)' : '1 0 60%',
         margin: isGrid ? '1rem 2rem' : '0',
         maxWidth: isGrid ? 'calc(33.333% - 4rem)' : '60%',
-        boxShadow: isGrid ? '0 0 0 5px rgba(0, 0, 0, 0.03)' : 'none',
+        boxShadow: '0 0 0 5px rgba(0, 0, 0, 0.03)',
         position: 'relative'
       }}
     >
