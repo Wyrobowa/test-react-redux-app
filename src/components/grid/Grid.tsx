@@ -12,7 +12,8 @@ const Grid = () => {
       display="flex"
       flexWrap="wrap"
       justifyContent="center"
-      style={{ maxWidth: '1200px', marginLeft: 'auto', marginRight: 'auto' }}
+      maxWidth={1200}
+      style={{ marginLeft: 'auto', marginRight: 'auto' }}
     >
       {posts.length > 0 && posts.map((post, index) => (
         <Photo

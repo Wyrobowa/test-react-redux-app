@@ -17,9 +17,7 @@ const Item = () => {
   );
 
   return (
-    <Box
-      style={{ maxWidth: '1200px' }}
-    >
+    <Box maxWidth={1200}>
       {postId && posts[index] && (
         <Box display="flex" justifyContent="space-between" gap={8}>
           <Photo
