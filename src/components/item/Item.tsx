@@ -1,35 +1,20 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useParams } from 'react-router-dom';
 import { Box } from 'tharaday';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-
-// Actions
-import { getPosts, selectAllPosts } from '../../features/postsSlice';
-import { getComments, selectAllComments } from '../../features/commentsSlice';
+import { useDataFetching } from '../../hooks/useDataFetching';
 
 // Components
 import Comments from '../comments/Comments';
 import Photo from '../photo/Photo';
 
 const Item = () => {
-  const posts = useAppSelector(selectAllPosts);
-  const comments = useAppSelector(selectAllComments);
-  const dispatch = useAppDispatch();
+  const { posts, comments } = useDataFetching();
   const { postId } = useParams<{ postId: string }>();
 
   const index = useMemo(
     () => posts.findIndex(post => post.code === postId),
     [posts, postId],
   );
-
-  useEffect(() => {
-    if (posts.length === 0) {
-      dispatch(getPosts());
-    }
-    if (Object.keys(comments).length === 0) {
-      dispatch(getComments());
-    }
-  }, [dispatch, posts.length, comments]);
 
   return (
     <Box

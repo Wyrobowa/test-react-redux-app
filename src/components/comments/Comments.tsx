@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Text, Input, Button, ButtonVariant} from 'tharaday';
+import { Box, Text, Input, Button } from 'tharaday';
 
 import { useAppDispatch } from '../../hooks';
 
@@ -12,69 +12,73 @@ interface CommentsProps {
 }
 
 const Comments = ({ comments }: CommentsProps) => {
-  const [author, setAuthor] = useState('');
-  const [comment, setComment] = useState('');
+  const [formData, setFormData] = useState({ author: '', comment: '' });
   const dispatch = useAppDispatch();
-  const id = useParams().postId;
+  const { postId } = useParams<{ postId: string }>();
 
   const handleOnChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
-
-    if (name === 'author') {
-      setAuthor(value);
-    }
-
-    if (name === 'comment') {
-      setComment(value);
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRemoveComment = (index: number) => {
-    if (id) {
-      dispatch(removeComment({ postId: id, index }));
+    if (postId) {
+      dispatch(removeComment({ postId, index }));
     }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!author || !comment || !id) return;
-    dispatch(addComment({ postId: id, author, comment }));
-    setAuthor('');
-    setComment('');
+    const { author, comment } = formData;
+    if (!author || !comment || !postId) return;
+    dispatch(addComment({ postId, author, comment }));
+    setFormData({ author: '', comment: '' });
   };
 
   return (
     <Box flex="1 0 40%" padding={4}>
-      {comments?.length > 0 && comments.map((comment, index) => (
-        <Box key={comment.text + index} borderBottom paddingY={2} display="flex" justifyContent="space-between" alignItems="center">
-          <Text variant="body-md">
-            <Text as="span" weight="bold" style={{ marginRight: '0.5rem' }}>{comment.user}</Text>
-            {comment.text}
-          </Text>
-          <Button
-            variant={'ghost' as ButtonVariant}
-            intent="danger"
-            size="sm"
-            onClick={() => handleRemoveComment(index)}
+      {comments?.length > 0 &&
+        comments.map((comment, index) => (
+          <Box
+            key={comment.text + index}
+            borderBottom
+            paddingY={2}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            &times;
-          </Button>
-        </Box>
-      ))}
+            <Text variant="body-md">
+              <Text as="span" weight="bold" style={{ marginRight: '0.5rem' }}>
+                {comment.user}
+              </Text>
+              {comment.text}
+            </Text>
+            <Button
+              variant="outline"
+              intent="danger"
+              size="sm"
+              onClick={() => handleRemoveComment(index)}
+            >
+              &times;
+            </Button>
+          </Box>
+        ))}
       <Box as="form" onSubmit={handleSubmit} mt={4} display="flex" flexDirection="column" gap={2}>
         <Input
           name="author"
           onChange={handleOnChange}
           placeholder="author"
-          value={author}
+          value={formData.author}
         />
         <Input
           name="comment"
           onChange={handleOnChange}
           placeholder="comment"
-          value={comment}
+          value={formData.comment}
         />
-        <Button type="submit" hidden>Submit</Button>
+        <Button type="submit" hidden>
+          Submit
+        </Button>
       </Box>
     </Box>
   );

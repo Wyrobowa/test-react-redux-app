@@ -1,27 +1,11 @@
-import { useEffect } from 'react';
 import { Box } from 'tharaday';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-
-// Actions
-import { getPosts, selectAllPosts } from '../../features/postsSlice';
-import { getComments, selectAllComments } from '../../features/commentsSlice';
+import { useDataFetching } from '../../hooks/useDataFetching';
 
 // Components
 import Photo from '../photo/Photo';
 
 const Grid = () => {
-  const posts = useAppSelector(selectAllPosts);
-  const comments = useAppSelector(selectAllComments);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (posts.length === 0) {
-      dispatch(getPosts());
-    }
-    if (Object.keys(comments).length === 0) {
-      dispatch(getComments());
-    }
-  }, [dispatch, posts.length, comments]);
+  const { posts, comments } = useDataFetching();
 
   return (
     <Box

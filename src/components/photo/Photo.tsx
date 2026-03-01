@@ -79,7 +79,7 @@ const Photo = ({ post, comments, index, type }: PhotoProps) => {
             <Button variant="outline" size="sm" onClick={handleIncrementLikes}>
               &hearts; {post.likes}
             </Button>
-            <Link to={`/view/${post.code}`} style={{ textDecoration: 'none' }}>
+            <Link to={`${routes.item}/${post.code}`} style={{ textDecoration: 'none' }}>
               <Button variant="outline" size="sm">
                 &#128172; {comments?.length || 0}
               </Button>
