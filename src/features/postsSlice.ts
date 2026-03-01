@@ -26,10 +26,14 @@ const postsSlice = createSlice({
         post.likes += 1;
       }
     },
+    deletePost: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      state.splice(index, 1);
+    },
   },
 });
 
-export const { getPosts, incrementLikes } = postsSlice.actions;
+export const { getPosts, incrementLikes, deletePost } = postsSlice.actions;
 export default postsSlice.reducer;
 
 export const selectAllPosts = (state: RootState) => state.posts;

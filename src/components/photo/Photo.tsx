@@ -1,12 +1,12 @@
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
-import { Box, Button, Text, Card, CardContent } from 'tharaday';
+import { Box, Button, Text, Card } from 'tharaday';
 
 import { useAppDispatch } from '../../hooks';
 
 // Actions
-import { incrementLikes, Post } from '../../features/postsSlice';
+import { incrementLikes, deletePost, Post } from '../../features/postsSlice';
 import { Comment } from '../../features/commentsSlice';
 
 // Common
@@ -25,6 +25,7 @@ interface PhotoProps {
 const Photo = ({ post, comments, index, type }: PhotoProps) => {
   const [transition, setTransition] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const nodeRef = useRef<HTMLDivElement>(null);
 
   const handleIncrementLikes = () => {
@@ -32,20 +33,27 @@ const Photo = ({ post, comments, index, type }: PhotoProps) => {
     setTransition(true);
   };
 
+  const handleDeletePost = () => {
+    if (window.confirm('Are you sure you want to delete this post?')) {
+      dispatch(deletePost(index));
+      if (type === 'item') {
+        navigate(routes.main);
+      }
+    }
+  };
+
   const isGrid = type === 'grid';
 
   return (
     <Card
-      padding={'md'}
+      padding="none"
       bordered
       borderColor="subtle"
       backgroundColor="subtle"
       style={{
-        flex: isGrid ? '1 0 calc(33.333% - 4rem)' : '1 0 60%',
-        margin: isGrid ? '1rem 2rem' : '0',
-        maxWidth: isGrid ? 'calc(33.333% - 4rem)' : '60%',
+        position: 'relative',
         boxShadow: '0 0 0 5px rgba(0, 0, 0, 0.03)',
-        position: 'relative'
+        overflow: 'hidden'
       }}
     >
       <Box style={{ position: 'relative' }}>
@@ -54,9 +62,7 @@ const Photo = ({ post, comments, index, type }: PhotoProps) => {
             src={post.display_src}
             alt={post.caption}
             style={{
-              width: isGrid ? 'calc(100% + 4rem)' : '100%',
-              marginLeft: isGrid ? '-2rem' : '0',
-              marginTop: isGrid ? '-2rem' : '0',
+              width: '100%',
               display: 'block'
             }}
           />
@@ -72,21 +78,26 @@ const Photo = ({ post, comments, index, type }: PhotoProps) => {
         </CSSTransition>
       </Box>
 
-      <CardContent style={{ padding: isGrid ? '0' : '1rem' }}>
-        <Box paddingTop={4} display="flex" flexDirection="column" gap={4}>
-          <Text variant="body-md" style={{ marginBottom: '1rem' }}>{post.caption}</Text>
+      <Box padding={4}>
+        <Box display="flex" flexDirection="column" gap={4}>
+          <Text variant="body-md">{post.caption}</Text>
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Button variant="outline" size="sm" onClick={handleIncrementLikes}>
-              &hearts; {post.likes}
-            </Button>
-            <Link to={`${routes.item}/${post.code}`} style={{ textDecoration: 'none' }}>
-              <Button variant="outline" size="sm">
-                &#128172; {comments?.length || 0}
+            <Box display="flex" gap={2}>
+              <Button variant="outline" size="sm" onClick={handleIncrementLikes}>
+                &hearts; {post.likes}
               </Button>
-            </Link>
+              <Link to={`${routes.item}/${post.code}`} style={{ textDecoration: 'none' }}>
+                <Button variant="outline" size="sm">
+                  &#128172; {comments?.length || 0}
+                </Button>
+              </Link>
+            </Box>
+            <Button variant="outline" intent="danger" size="sm" onClick={handleDeletePost}>
+              Delete
+            </Button>
           </Box>
         </Box>
-      </CardContent>
+      </Box>
     </Card>
   );
 };

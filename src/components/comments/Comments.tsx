@@ -36,7 +36,7 @@ const Comments = ({ comments }: CommentsProps) => {
   };
 
   return (
-    <Box flex="1 0 40%" padding={4}>
+    <Box padding={4}>
       {comments?.length > 0 &&
         comments.map((comment, index) => (
           <Box
@@ -45,36 +45,65 @@ const Comments = ({ comments }: CommentsProps) => {
             paddingY={2}
             display="flex"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="flex-start"
+            gap={2}
           >
             <Text variant="body-md">
-              <Text as="span" weight="bold" style={{ marginRight: '0.5rem' }}>
-                {comment.user}
-              </Text>
-              {comment.text}
+              <Box display="flex" flexWrap="wrap" gap={2}>
+                <Text as="span" weight="bold">
+                  {comment.user}
+                </Text>
+                {comment.text}
+              </Box>
             </Text>
             <Button
-              variant="outline"
+              variant="subtle"
               intent="danger"
               size="sm"
+              aria-label="Delete comment"
               onClick={() => handleRemoveComment(index)}
             >
-              &times;
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 6h18" />
+                <path d="M8 6V4h8v2" />
+                <path d="M19 6l-1 14H6L5 6" />
+                <path d="M10 11v6" />
+                <path d="M14 11v6" />
+              </svg>
             </Button>
           </Box>
         ))}
-      <Box as="form" onSubmit={handleSubmit} mt={4} display="flex" flexDirection="column" gap={2}>
+      <Box
+        as="form"
+        onSubmit={handleSubmit}
+        marginTop={4}
+        display="flex"
+        flexDirection="column"
+        gap={2}
+      >
         <Input
           name="author"
           onChange={handleOnChange}
           placeholder="author"
           value={formData.author}
+          fullWidth
         />
         <Input
           name="comment"
           onChange={handleOnChange}
           placeholder="comment"
           value={formData.comment}
+          fullWidth
         />
         <Button type="submit" hidden>
           Submit
